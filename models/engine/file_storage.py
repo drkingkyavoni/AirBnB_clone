@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 import json
-import os
+from pathlib import Path
+
+from models.base_model import BaseModel
+
+clsArray = {"BaseModel": BaseModel}
 
 
 class FileStorage:
@@ -8,8 +12,18 @@ class FileStorage:
     deserializes JSON file to instances
     """
 
-    __file_path = "file.json"
-    __objects = {}
+    def __init__(self) -> None:
+        """
+        Initializes an instance of the class.
+
+        Parameters:
+            self: The instance of the class.
+
+        Returns:
+            None.
+        """
+        self.__file_path = "file.json"
+        self.__objects = {}
 
     def all(self):
         """returns the dictionary __objects"""
@@ -22,18 +36,22 @@ class FileStorage:
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
-        with open(FileStorage.__file_path, "w+") as fileStore:
-            objItems = {}
-            print("{}".format(FileStorage.__objects))
-            for key, value in FileStorage.__objects.items():
-                objItems[key] = value.to_dict()
-            jsonItems = json.dumps(objItems)
-            if fileStore.write(jsonItems) and not jsonItems:
-                print("{}".format("File write successful"))
+        objItems = {key: value.to_dict() for key, value in self.__objects.items()}
+
+        with open(self.__file_path, "w") as fileStore:
+            json.dump(objItems, fileStore)
 
     def reload(self):
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, mode="r") as fileStore:
-                jsonObj = json.load(fileStore)
-            if isinstance(jsonObj, dict) and not jsonObj:
-                self.__objects.update(jsonObj)
+        """Deserializes the JSON file to __objects"""
+        if not Path(self.__file_path).is_file():
+            return
+
+        with open(self.__file_path, "r") as file:
+            obj_items = json.load(file)
+
+        if not obj_items:
+            return
+
+        self.__objects = {
+            key: clsArray[obj["__class__"]](**obj) for key, obj in obj_items.items()
+        }

@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-
 import datetime
 import uuid
 
-from models import storage
+import models
 
 
 class BaseModel:
@@ -22,10 +21,10 @@ class BaseModel:
         self.created_at = datetime.datetime.now()
         self.updated_at = datetime.datetime.now()
 
-        if kwargs is None:
+        if not kwargs:
             self.name = ""
             self.my_number = 0
-            storage.new(self)
+            models.storage.new(self)
         else:
             self.__dict__.update(kwargs)
             if "created_at" in kwargs:
@@ -52,8 +51,8 @@ class BaseModel:
         Returns:
             None
         """
-        storage.save()
         self.updated_at = datetime.datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """
