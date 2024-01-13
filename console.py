@@ -79,7 +79,23 @@ class HBNBCommand(cmd.Cmd):
         return models.storage.all().get(objKey)
 
     @classmethod
-    def __get_destroyClassID(cls, arg):
+    def __destroyClassID(cls, arg):
+        """
+        This class method destroys an instance of a class identified by the given argument.
+
+        Parameters:
+            cls (class): The class itself.
+            arg (str): The argument used to identify the instance to destroy.
+
+        Returns:
+            dict: The updated dictionary of instances.
+
+        Note:
+            - The argument should be in the format "<class name> <instance id>".
+            - If the instance does not exist, a message will be printed and the function will return.
+            - The instance will be removed from the dictionary of instances.
+            - The updated dictionary will be saved and reloaded.
+        """
         argElements = arg.split()
         objKey = "{}.{}".format(argElements[0], argElements[1])
 
@@ -91,6 +107,40 @@ class HBNBCommand(cmd.Cmd):
         models.storage.save()
         models.storage.reload()
         return models.storage.all()
+
+    @classmethod
+    def __updateClassID(cls, arg):
+        """
+        Updates the class ID of an instance.
+
+        Args:
+            cls (type): The class.
+            arg (str): The argument.
+
+        Returns:
+            dict: The updated storage dictionary.
+        """
+        argElements = arg.split()
+        countElements = len(argElements)
+        objKey = "{}.{}".format(argElements[0], argElements[1])
+
+        if objKey not in models.storage.all():
+            print("{}".format("** no instance found **"))
+            return
+
+        if countElements < 3:
+            print("{}".format("** attribute name missing **"))
+            return
+
+        if len(argElements) < 4:
+            print("{}".format("** value missing **"))
+            return
+
+        objInstance = models.storage.all().get(objKey)
+        setattr(objInstance, argElements[2], argElements[3])
+        objInstance.__dict__[argElements[2]] = str(argElements[3])
+        objInstance.save()
+        return models.storage.all()[objKey]
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
@@ -170,7 +220,24 @@ class HBNBCommand(cmd.Cmd):
         if HBNBCommand.__checkMissingClassID(arg):
             return
 
-        objInstance = HBNBCommand.__get_destroyClassID(arg)
+        objInstance = HBNBCommand.__destroyClassID(arg)
+
+        if not objInstance:
+            return
+
+        print(objInstance.__str__())
+
+    def do_update(self, arg):
+        if HBNBCommand.__checkMissingClassName(arg):
+            return
+
+        if not HBNBCommand.__get_class(arg):
+            return
+
+        if HBNBCommand.__checkMissingClassID(arg):
+            return
+
+        objInstance = HBNBCommand.__updateClassID(arg)
 
         if not objInstance:
             return

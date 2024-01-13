@@ -56,23 +56,13 @@ class BaseModel:
 
     def to_dict(self):
         """
-        Returns a dictionary representation of the current object.
+        Returns a dictionary representation of the object.
 
         Returns:
-            dict: A dictionary representation of the current object.
-                The dictionary includes the following key-value pairs:
-                - "my_number" (int): The value of my_number attribute.
-                - "name" (str): The value of name attribute.
-                - "class_name" (str): The name of the class.
-                - "updated_at" (str): The last update date and time of the object in ISO format.
-                - "id" (int): The id of the object.
-                - "created_at" (str): The creation date and time of the object in ISO format.
+            dict: A dictionary representation of the object.
         """
-        return {
-            "my_number": self.my_number,
-            "name": self.name,
-            "__class__": self.__class__.__name__,
-            "updated_at": self.updated_at.isoformat(),
-            "id": self.id,
-            "created_at": self.created_at.isoformat(),
-        }
+        obj_dict = self.__dict__.copy()
+        obj_dict["__class__"] = self.__class__.__name__
+        obj_dict["created_at"] = self.created_at.isoformat()
+        obj_dict["updated_at"] = self.updated_at.isoformat()
+        return obj_dict
