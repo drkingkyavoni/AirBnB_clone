@@ -5,8 +5,8 @@ from datetime import datetime
 from unittest.mock import patch
 from uuid import uuid4
 
-from ..models import storage
-from ..models.base_model import BaseModel
+from ...models import storage
+from ...models.base_model import BaseModel
 
 
 class TestBaseModel(unittest.TestCase):
