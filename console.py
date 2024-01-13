@@ -3,10 +3,25 @@
 import cmd
 
 import models
+from models.amenity import Amenity
 from models.base_model import BaseModel
+from models.city import City
 from models.engine.file_storage import FileStorage
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
 
-classDict = {"BaseModel": BaseModel, "FileStorage": FileStorage}
+classDict: dict[str, object] = {
+    "FileStorage": FileStorage,
+    "BaseModel": BaseModel,
+    "User": User,
+    "Place": Place,
+    "State": State,
+    "City": City,
+    "Amenity": Amenity,
+    "Review": Review,
+}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -16,6 +31,15 @@ class HBNBCommand(cmd.Cmd):
 
     @classmethod
     def __checkMissingClassName(cls, arg) -> int:
+        """
+        Check if the class name is missing.
+
+        Args:
+            arg (Any): The argument to check.
+
+        Returns:
+            int: 1 if the class name is missing, 0 otherwise.
+        """
         if not arg:
             print("{}".format("** class name missing **"))
             return 1
@@ -27,7 +51,8 @@ class HBNBCommand(cmd.Cmd):
         argElements = arg.split()
         objClass: object = None
         try:
-            if argElements[0] != "BaseModel":
+            target_class = classDict.get(argElements[0])
+            if not target_class or not issubclass(target_class, BaseModel):
                 print("{}".format("** class doesn't exist **"))
                 objClass = None
             else:
@@ -188,12 +213,35 @@ class HBNBCommand(cmd.Cmd):
         Returns:
             None: If the argument is not a valid class name or is an empty string.
         """
-        if HBNBCommand.__get_class(arg) or arg == "":
-            print([obj.__str__() for obj in models.storage.all().values()])
+        target_class = HBNBCommand.__get_class(arg)
+        if target_class or arg == "":
+            print(
+                [
+                    obj.__str__()
+                    for obj in models.storage.all().values()
+                    if obj.__class__ is target_class or target_class is None
+                ]
+            )
         else:
             return
 
     def do_show(self, arg):
+        """
+        This function is responsible for displaying the details of a given object instance.
+
+        Parameters:
+        - arg: The argument passed to the function.
+
+        Returns:
+        - None
+
+        Description:
+        - The function first checks if the class name is missing in the argument. If it is, the function returns.
+        - Next, it checks if the class exists. If it does not, the function returns.
+        - Then, it checks if the class ID is missing in the argument. If it is, the function returns.
+        - After that, it retrieves the details of the object instance.
+        - Finally, it prints the string representation of the object instance.
+        """
         if HBNBCommand.__checkMissingClassName(arg):
             return
 
@@ -211,6 +259,16 @@ class HBNBCommand(cmd.Cmd):
         print(objInstance.__str__())
 
     def do_destroy(self, arg):
+        """
+        Destroy an object by ID
+
+        Parameters:
+            arg (str): The ID of the object to be destroyed
+
+        Returns:
+            None
+
+        """
         if HBNBCommand.__checkMissingClassName(arg):
             return
 
@@ -228,6 +286,15 @@ class HBNBCommand(cmd.Cmd):
         print(objInstance.__str__())
 
     def do_update(self, arg):
+        """
+        Updates a class instance based on the given argument.
+
+        Args:
+            arg (str): The argument to update the class instance.
+
+        Returns:
+            None
+        """
         if HBNBCommand.__checkMissingClassName(arg):
             return
 

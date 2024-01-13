@@ -2,9 +2,23 @@
 import json
 from pathlib import Path
 
+from models.amenity import Amenity
 from models.base_model import BaseModel
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
 
-clsArray = {"BaseModel": BaseModel}
+classDict: dict[str, object] = {
+    "BaseModel": BaseModel,
+    "User": User,
+    "Place": Place,
+    "State": State,
+    "City": City,
+    "Amenity": Amenity,
+    "Review": Review,
+}
 
 
 class FileStorage:
@@ -53,5 +67,5 @@ class FileStorage:
             return
 
         self.__objects = {
-            key: clsArray[obj["__class__"]](**obj) for key, obj in obj_items.items()
+            key: classDict[obj["__class__"]](**obj) for key, obj in obj_items.items()
         }
