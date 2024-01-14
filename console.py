@@ -214,14 +214,13 @@ class HBNBCommand(cmd.Cmd):
             None: If the argument is not a valid class name or is an empty string.
         """
         target_class = HBNBCommand.__get_class(arg)
-        if target_class or arg == "":
-            print(
-                [
-                    obj.__str__()
-                    for obj in models.storage.all().values()
-                    if obj.__class__ is target_class or target_class is None
-                ]
-            )
+        if target_class or not arg:
+            objStore = [
+                obj.__str__()
+                for obj in models.storage.all().values()
+                if obj.__class__ is target_class or target_class is None
+            ]
+            print("{}".format(objStore))
         else:
             return
 

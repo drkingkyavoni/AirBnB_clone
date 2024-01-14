@@ -202,5 +202,21 @@
         "name": "",
         "my_number": 0,
         "__class__": "City"
+    },
+    "BaseModel.c41589e6-32c2-4a58-bc45-8abc61db81cf": {
+        "id": "c41589e6-32c2-4a58-bc45-8abc61db81cf",
+        "created_at": "2024-01-14T00:22:41.687351",
+        "updated_at": "2024-01-14T00:22:41.687377",
+        "name": "",
+        "my_number": 0,
+        "__class__": "BaseModel"
+    },
+    "User.ab1e41bc-53b8-47de-8b73-3d369b7a0cb0": {
+        "id": "ab1e41bc-53b8-47de-8b73-3d369b7a0cb0",
+        "created_at": "2024-01-14T00:22:48.959767",
+        "updated_at": "2024-01-14T00:22:48.959794",
+        "name": "",
+        "my_number": 0,
+        "__class__": "User"
     }
 }
