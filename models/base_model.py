@@ -28,9 +28,11 @@ class BaseModel:
         else:
             self.__dict__.update(kwargs)
             if "created_at" in kwargs:
-                self.created_at = datetime.datetime.fromisoformat(kwargs["created_at"])
+                __c = datetime.datetime.fromisoformat(kwargs["created_at"])
+                self.created_at = __c
             if "updated_at" in kwargs:
-                self.updated_at = datetime.datetime.fromisoformat(kwargs["updated_at"])
+                __u = datetime.datetime.fromisoformat(kwargs["updated_at"])
+                self.updated_at = __u
 
     def __str__(self) -> str:
         """
@@ -39,11 +41,12 @@ class BaseModel:
         Returns:
             str: The string representation of the object.
         """
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self) -> None:
         """
-        Updates the `updated_at` attribute of the object with the current datetime.
+        Updates the `updated_at` attribute of the
+        object with the current datetime.
 
         Parameters:
             None

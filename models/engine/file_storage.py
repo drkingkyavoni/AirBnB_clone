@@ -50,7 +50,9 @@ class FileStorage:
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
-        objItems = {key: value.to_dict() for key, value in self.__objects.items()}
+        objItems = {
+            key: value.to_dict() for key, value in self.__objects.items()
+        }
 
         with open(self.__file_path, "w") as fileStore:
             json.dump(objItems, fileStore, indent=4)
@@ -67,5 +69,6 @@ class FileStorage:
             return
 
         self.__objects = {
-            key: classDict[obj["__class__"]](**obj) for key, obj in obj_items.items()
+            key: classDict[obj["__class__"]](**obj)
+            for key, obj in obj_items.items()
         }

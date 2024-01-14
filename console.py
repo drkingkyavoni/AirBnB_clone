@@ -106,19 +106,25 @@ class HBNBCommand(cmd.Cmd):
     @classmethod
     def __destroyClassID(cls, arg):
         """
-        This class method destroys an instance of a class identified by the given argument.
+        This class method destroys an instance of a class identified
+        by the given argument.
 
         Parameters:
             cls (class): The class itself.
-            arg (str): The argument used to identify the instance to destroy.
+            arg (str): The argument used to identify the instance
+            to destroy.
 
         Returns:
             dict: The updated dictionary of instances.
 
         Note:
-            - The argument should be in the format "<class name> <instance id>".
-            - If the instance does not exist, a message will be printed and the function will return.
-            - The instance will be removed from the dictionary of instances.
+            - The argument should be in the format
+              "<class name> <instance id>".
+            - If the instance does not exist, a message will be
+              printed and
+              the function will return.
+            - The instance will be removed from the dictionary
+              of instances.
             - The updated dictionary will be saved and reloaded.
         """
         argElements = arg.split()
@@ -205,13 +211,15 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """
-        A function that performs a specific action based on the given argument.
+        A function that performs a specific action based on the given
+        argument.
 
         Parameters:
             arg (str): The argument passed to the function.
 
         Returns:
-            None: If the argument is not a valid class name or is an empty string.
+            None: If the argument is not a valid class name or is
+            an empty string.
         """
         target_class = HBNBCommand.__get_class(arg)
         if target_class or not arg:
@@ -226,7 +234,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """
-        This function is responsible for displaying the details of a given object instance.
+        This function is responsible for displaying the details of
+        a given object instance.
 
         Parameters:
         - arg: The argument passed to the function.
@@ -235,11 +244,15 @@ class HBNBCommand(cmd.Cmd):
         - None
 
         Description:
-        - The function first checks if the class name is missing in the argument. If it is, the function returns.
-        - Next, it checks if the class exists. If it does not, the function returns.
-        - Then, it checks if the class ID is missing in the argument. If it is, the function returns.
+        - The function first checks if the class name is missing in the
+          argument. If it is, the function returns.
+        - Next, it checks if the class exists. If it does not, the
+          function returns.
+        - Then, it checks if the class ID is missing in the argument.
+          If it is, the function returns.
         - After that, it retrieves the details of the object instance.
-        - Finally, it prints the string representation of the object instance.
+        - Finally, it prints the string representation of the object
+          instance.
         """
         if HBNBCommand.__checkMissingClassName(arg):
             return
