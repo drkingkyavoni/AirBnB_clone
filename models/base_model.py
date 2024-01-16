@@ -28,10 +28,14 @@ class BaseModel:
         else:
             self.__dict__.update(kwargs)
             if "created_at" in kwargs:
-                __c = datetime.datetime.fromisoformat(kwargs["created_at"])
+                __c = datetime.datetime.fromisoformat(
+                    kwargs["created_at"]
+                    )
                 self.created_at = __c
             if "updated_at" in kwargs:
-                __u = datetime.datetime.fromisoformat(kwargs["updated_at"])
+                __u = datetime.datetime.fromisoformat(
+                    kwargs["updated_at"]
+                    )
                 self.updated_at = __u
 
     def __str__(self) -> str:

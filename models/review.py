@@ -6,9 +6,9 @@ import models.base_model as BaseModel
 class Review(BaseModel.BaseModel):
     """Class User that inherits from BaseModel"""
 
-    place_id: str = ""
-    user_id: str = ""
-    text: str = ""
+    place_id = ""
+    user_id = ""
+    text = ""
 
     def __init__(self, *args, **kwargs):
         """Initializes User"""
